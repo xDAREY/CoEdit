@@ -8,7 +8,7 @@ A real-time collaborative text editor built with **Flutter**, **Riverpod**, and 
 
 * 🔄 **Real-time sync**: Live updates across multiple simulated users
 * 📱 **Responsive UI**: Side-by-side editors on wide screens, stacked on narrow
-* 🎯 **Focus tracking**: “Typing…” indicator only on the active editor
+* 🎯 **Focus tracking**: “colored-dot” indicator only on the active editor
 * 🔀 **Diff-merge logic**: Intelligent conflict resolution
 * 🔐 **Anonymous auth**: Zero-UI sign-in with retry
 * 📡 **Connection monitoring**: Status & automatic recovery
@@ -28,7 +28,12 @@ A real-time collaborative text editor built with **Flutter**, **Riverpod**, and 
 2. **Install & authenticate** the Firebase CLI
 
    ```bash
-   npm install -g firebase-tools
+   npm install -g firebase-tools 
+   firebase login
+   ```
+   or (mac)
+  ```bash
+   brew install firebase-cli 
    firebase login
    ```
 
