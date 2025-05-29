@@ -13,19 +13,72 @@ final themeColorProvider = StateProvider(
   (ref) => const Color.fromARGB(255, 139, 71, 7),
 );
 final themeModeProvider = StateProvider((ref) => ThemeMode.system);
+final hasSeenOnboardingProvider = StateProvider<bool>((ref) => false);
+final isAppInitializedProvider = StateProvider<bool>((ref) => false);
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await _ensureAnonymousAuth();
-  runApp(const ProviderScope(child: MyApp()));
-}
-
-Future<void> _ensureAnonymousAuth() async {
+  
   if (FirebaseAuth.instance.currentUser == null) {
     await FirebaseAuth.instance.signInAnonymously();
   }
+  
+  await FirebaseDocumentService().initialize();
+  
+  runApp(const ProviderScope(child: MyApp()));
 }
+
+class AuthWrapperWithSplash extends ConsumerStatefulWidget {
+  const AuthWrapperWithSplash({super.key});
+
+  @override
+  ConsumerState<AuthWrapperWithSplash> createState() => _AuthWrapperWithSplashState();
+}
+
+class _AuthWrapperWithSplashState extends ConsumerState<AuthWrapperWithSplash> {
+  bool _showSplash = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _hideSplashAfterDelay();
+  }
+
+  void _hideSplashAfterDelay() async {
+    await Future.delayed(const Duration(seconds: 2));
+    if (mounted) {
+      setState(() {
+        _showSplash = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_showSplash) {
+      return const SplashScreen();
+    }
+
+    final hasSeenOnboarding = ref.watch(hasSeenOnboardingProvider);
+    
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (!hasSeenOnboarding) {
+            return const Onboarding();
+          }
+          return const EditorScreen();
+        } else {
+          return const SplashScreen();
+        }
+      },
+    );
+  }
+}
+
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
@@ -63,7 +116,7 @@ class MyApp extends ConsumerWidget {
       themeMode: themeMode,
       initialRoute: '/',
       routes: {
-        '/': (context) => const AuthWrapper(),
+        '/': (context) => const AuthWrapperWithSplash(),
         '/onboarding': (context) => const Onboarding(),
         '/home': (context) => const EditorScreen(),
       },
@@ -71,49 +124,3 @@ class MyApp extends ConsumerWidget {
   }
 }
 
-class AuthWrapper extends StatefulWidget {
-  const AuthWrapper({super.key});
-
-  @override
-  State<AuthWrapper> createState() => _AuthWrapperState();
-}
-
-class _AuthWrapperState extends State<AuthWrapper> {
-  bool _isInitializing = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeApp();
-  }
-
-  Future<void> _initializeApp() async {
-    if (FirebaseAuth.instance.currentUser == null) {
-      await FirebaseAuth.instance.signInAnonymously();
-    }
-    
-    await FirebaseDocumentService().initialize();
-    
-    setState(() {
-      _isInitializing = false;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (_isInitializing) {
-      return const SplashScreen();
-    }
-
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return const EditorScreen();
-        } else {
-          return const SplashScreen();
-        }
-      },
-    );
-  }
-}

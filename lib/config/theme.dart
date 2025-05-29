@@ -4,11 +4,15 @@ class AppThemes {
   static const Color newPrimaryColor = Color(0xFF8F4C38);
 
   static const Color lightBackground = Colors.white;
-  static const Color darkBackground = Colors.black;
+  static const Color darkBackground = Color(0xFF121212);
 
   static ThemeData lightTheme = ThemeData(
     primaryColor: newPrimaryColor, 
-    colorScheme: ColorScheme.light(primary: newPrimaryColor), 
+    colorScheme: ColorScheme.light(
+      primary: newPrimaryColor,
+      surface: lightBackground,
+      onSurface: Colors.black87,
+    ), 
     scaffoldBackgroundColor: lightBackground,
     appBarTheme: const AppBarTheme(
       backgroundColor: newPrimaryColor,
@@ -21,8 +25,8 @@ class AppThemes {
       iconTheme: IconThemeData(color: Colors.white),
     ),
     textTheme: const TextTheme(
-      bodyLarge: TextStyle(fontFamily: 'Montserrat', fontSize: 18, color: Colors.black),
-      bodyMedium: TextStyle(fontFamily: 'Montserrat', fontSize: 16, color: Colors.black),
+      bodyLarge: TextStyle(fontFamily: 'Montserrat', fontSize: 18, color: Colors.black87),
+      bodyMedium: TextStyle(fontFamily: 'Montserrat', fontSize: 16, color: Colors.black87),
       titleLarge: TextStyle(fontFamily: 'Montserrat', fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black87), 
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -51,7 +55,11 @@ class AppThemes {
 
   static ThemeData darkTheme = ThemeData(
     primaryColor: newPrimaryColor, 
-    colorScheme: ColorScheme.dark(primary: newPrimaryColor),
+    colorScheme: ColorScheme.dark(
+      primary: newPrimaryColor,
+      surface: darkBackground,
+      onSurface: Colors.white,
+    ),
     scaffoldBackgroundColor: darkBackground,
     appBarTheme: const AppBarTheme(
       backgroundColor: newPrimaryColor,
@@ -70,7 +78,7 @@ class AppThemes {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        textStyle: TextStyle(
+        textStyle: const TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 16,
           fontWeight: FontWeight.bold,
@@ -86,7 +94,7 @@ class AppThemes {
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-         textStyle: TextStyle(
+         textStyle: const TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 16,
           fontWeight: FontWeight.bold,

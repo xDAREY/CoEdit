@@ -16,10 +16,12 @@ class EditorStatusBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.grey[100],
+        color: isDark ? Colors.grey[800] : Colors.grey[100],
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(12),
           bottomRight: Radius.circular(12),
@@ -42,7 +44,7 @@ class EditorStatusBar extends StatelessWidget {
                 statusMessage,
                 style: TextStyle(
                   fontSize: 11,
-                  color: Colors.grey[600],
+                  color: isDark ? Colors.grey[300] : Colors.grey[600],
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
@@ -59,7 +61,7 @@ class EditorStatusBar extends StatelessWidget {
               'Synced',
               style: TextStyle(
                 fontSize: 11,
-                color: Colors.green[700],
+                color: isDark ? Colors.green[400] : Colors.green[700],
               ),
             ),
           ],

@@ -1,10 +1,12 @@
+import 'package:co_edit/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Onboarding extends StatelessWidget {
+class Onboarding extends ConsumerWidget {
   const Onboarding({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     
@@ -61,6 +63,7 @@ class Onboarding extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
+                    ref.read(hasSeenOnboardingProvider.notifier).state = true;
                     Navigator.pushReplacementNamed(context, '/home');
                   },
                   style: theme.elevatedButtonTheme.style?.copyWith(
@@ -95,7 +98,7 @@ class Onboarding extends StatelessWidget {
       (primaryColor.r * 0.70).round(),
       (primaryColor.g * 0.70).round(),
       (primaryColor.b * 0.70).round(),
-      3.0,
+      1.0,
     );
     
     return Padding(
@@ -112,7 +115,7 @@ class Onboarding extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: primaryColor.withValues(alpha: 0.3),
+              color: primaryColor.withValues(alpha: 0.1),
               blurRadius: 10,
               spreadRadius: 2,
               offset: const Offset(0, 4),

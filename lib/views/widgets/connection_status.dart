@@ -10,13 +10,14 @@ class ConnectionStatusBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final status = ref.watch(globalConnectionStatusProvider);
     final isConnected = status == ConnectionStatus.connected;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       color: isConnected
-          ? const Color(0xFFE8F5E8)
-          : const Color(0xFFFFE8E8),
+          ? (isDark ? const Color(0xFF1A3D1A) : const Color(0xFFE8F5E8))
+          : (isDark ? const Color(0xFF3D1A1A) : const Color(0xFFFFE8E8)),
       child: Row(
         children: [
           Container(
@@ -33,8 +34,8 @@ class ConnectionStatusBar extends ConsumerWidget {
             style: TextStyle(
               fontSize: 14,
               color: isConnected
-                  ? Colors.green[800]
-                  : Colors.red[800],
+                  ? (isDark ? Colors.green[300] : Colors.green[800])
+                  : (isDark ? Colors.red[300] : Colors.red[800]),
               fontWeight: FontWeight.w500,
             ),
           ),

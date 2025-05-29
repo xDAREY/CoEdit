@@ -46,6 +46,8 @@ class _EditorPanelState extends ConsumerState<EditorPanel> {
   @override
   Widget build(BuildContext context) {
     final editorState = ref.watch(editorStateProvider(widget.documentId));
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
     
     ref.listen<EditorState>(
       editorStateProvider(widget.documentId),
@@ -70,7 +72,7 @@ class _EditorPanelState extends ConsumerState<EditorPanel> {
         children: [
           _buildHeader(),
           Expanded(
-            child: _buildEditorBody(),
+            child: _buildEditorBody(theme, isDarkMode),
           ),
           if (editorState.hasUnsavedChanges || editorState.statusMessage.isNotEmpty)
             EditorStatusBar(
@@ -128,12 +130,13 @@ class _EditorPanelState extends ConsumerState<EditorPanel> {
     );
   }
 
-
-  Widget _buildEditorBody() {
+  Widget _buildEditorBody(ThemeData theme, bool isDarkMode) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFFF8F8F8),
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        color: isDarkMode 
+            ? const Color(0xFF1E1E1E)
+            : const Color(0xFFF8F8F8),
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(12),
           bottomRight: Radius.circular(12),
         ),
@@ -148,9 +151,14 @@ class _EditorPanelState extends ConsumerState<EditorPanel> {
           );
           _editorController.onTextChanged(text, editorNotifier);
         },
+        textStyle: TextStyle(
+          color: isDarkMode ? Colors.white : Colors.black87,
+          fontSize: 16,
+          fontFamily: 'Montserrat',
+        ),
+        cursorColor: theme.colorScheme.primary,
+        selectionColor: theme.colorScheme.primary.withValues(alpha: 0.3),
       ),
     );
   }
 }
-
-

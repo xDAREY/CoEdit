@@ -188,3 +188,8 @@ final result = TextMerger.merge(
 * 🎨 **Theming & UI**: customizable themes and polished interface
 
 ---
+
+## APK DRIVE LINK
+* feel free to install and test the application on your android device, **here is the drive link** : https://drive.google.com/file/d/1c2iMy3dFsdh0B3aL8dpHu5DM9Y_3RHpU/view?usp=drive_link
+
+---
