@@ -1,0 +1,55 @@
+name: co_edit
+description: "Real-time collaborative text editor built with Flutter, Riverpod, and Firebase."
+
+publish_to: 'none' 
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.2
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flutter_riverpod: ^2.6.1
+  firebase_core: ^3.13.1
+  cloud_firestore: ^5.6.8
+  flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.4
+  firebase_auth: ^5.5.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/icons/
+    - assets/images/
+
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Regular.ttf
+        - asset: assets/fonts/Montserrat-Bold.ttf
+          weight: 700
+
+flutter_launcher_icons:  
+  android: true
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  remove_alpha_ios: true
+
+flutter_native_splash:
+  color: "#ffffff" 
+  image: assets/images/splash_screen.png
+  android: true
+  ios: true
+  fullscreen: true
